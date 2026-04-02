@@ -1,19 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { motion } from "framer-motion";
 import Image from "next/image";
-import { 
-  Menu, 
-  X,
-  LogOut,
-  Settings,
-  LayoutDashboard,
-} from "lucide-react";
 import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
+import { LayoutDashboard, LogOut, Menu, Settings, X } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,12 +16,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-const navLinks = [
-  { href: "/", label: "Home" },
-];
-
+const navLinks = [{ href: "/", label: "Home" }];
 const dashboardLinks = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/settings", label: "Settings", icon: Settings },
@@ -41,75 +32,49 @@ export function Navbar() {
   const isAuthenticated = status === "authenticated";
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
-      <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
-        {/* Logo */}
+    <header className="sticky top-0 z-50 border-b bg-background">
+      <nav className="section-shell flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center">
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.2 }}
-          >
-            <Image
-              src="/logo.svg"
-              alt="dRecharge Logo"
-              width={120}
-              height={32}
-              className="h-8 w-auto"
-              priority
-            />
-          </motion.div>
+          <Image
+            src="/logo.svg"
+            alt="dRecharge Logo"
+            width={120}
+            height={32}
+            className="h-8 w-auto"
+            priority
+          />
         </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden items-center gap-6 md:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`text-sm font-medium transition-colors hover:text-primary ${
-                pathname === link.href
-                  ? "text-primary"
-                  : "text-muted-foreground"
-              }`}
+              className={`text-sm ${pathname === link.href ? "font-semibold text-foreground" : "text-muted-foreground hover:text-foreground"}`}
             >
               {link.label}
             </Link>
           ))}
         </div>
 
-        {/* Auth Buttons / User Menu */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden items-center gap-3 md:flex">
           {isAuthenticated ? (
             <DropdownMenu>
-              <DropdownMenuTrigger className="relative h-10 w-10 rounded-full cursor-pointer outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
-                <Avatar className="h-10 w-10">
+              <DropdownMenuTrigger className="flex items-center gap-2 rounded-md px-2 py-1.5 outline-none ring-offset-background hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
+                <Avatar className="h-8 w-8">
                   <AvatarImage src={session?.user?.image || ""} alt={session?.user?.name || ""} />
-                  <AvatarFallback className="bg-gradient-to-br from-primary to-purple-600 text-white">
+                  <AvatarFallback>
                     {session?.user?.name?.charAt(0).toUpperCase() || "U"}
                   </AvatarFallback>
                 </Avatar>
+                <span className="max-w-32 truncate text-sm">{session?.user?.name || "Admin"}</span>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end">
-                <div className="flex items-center gap-2 p-2">
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage src={session?.user?.image || ""} />
-                    <AvatarFallback className="bg-primary text-primary-foreground text-xs">
-                      {session?.user?.name?.charAt(0).toUpperCase() || "U"}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex flex-col space-y-0.5">
-                    <p className="text-sm font-medium">{session?.user?.name}</p>
-                    <p className="text-xs text-muted-foreground truncate w-36">
-                      {session?.user?.email}
-                    </p>
-                  </div>
-                </div>
-                <DropdownMenuSeparator />
+              <DropdownMenuContent className="w-52" align="end">
                 {dashboardLinks.map((link) => (
-                  <DropdownMenuItem 
-                    key={link.href} 
+                  <DropdownMenuItem
+                    key={link.href}
                     onClick={() => router.push(link.href)}
-                    className="flex items-center gap-2 cursor-pointer"
+                    className="cursor-pointer gap-2"
                   >
                     <link.icon className="h-4 w-4" />
                     {link.label}
@@ -117,93 +82,79 @@ export function Navbar() {
                 ))}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
-                  className="text-red-600 focus:text-red-600 cursor-pointer"
+                  className="cursor-pointer text-red-600 focus:text-red-600"
                   onClick={() => signOut({ callbackUrl: "/" })}
                 >
-                  <LogOut className="h-4 w-4 mr-2" />
+                  <LogOut className="mr-2 h-4 w-4" />
                   Sign out
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <>
-              <Link href="/login">
-                <Button variant="ghost" size="sm">
-                  Admin Login
-                </Button>
-              </Link>
-            </>
+            <Link href="/login">
+              <Button variant="outline" size="sm">
+                Admin Login
+              </Button>
+            </Link>
           )}
         </div>
 
-        {/* Mobile Menu Button */}
         <button
-          className="md:hidden p-2"
+          className="rounded-md p-2 hover:bg-muted md:hidden"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle menu"
         >
-          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </nav>
 
-      {/* Mobile Menu */}
       {isOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          className="md:hidden border-t border-border bg-background"
-        >
-          <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                className={`text-sm font-medium py-2 ${
-                  pathname === link.href
-                    ? "text-primary"
-                    : "text-muted-foreground"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
-            
-            {isAuthenticated ? (
-              <>
-                <div className="h-px bg-border my-2" />
-                {dashboardLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-2 text-sm font-medium py-2 text-muted-foreground"
-                  >
-                    <link.icon className="h-4 w-4" />
-                    {link.label}
-                  </Link>
-                ))}
-                <Button
-                  variant="ghost"
-                  className="justify-start text-red-600 hover:text-red-600 px-0"
-                  onClick={() => signOut({ callbackUrl: "/" })}
+        <div className="border-t bg-background md:hidden">
+          <div className="section-shell py-3">
+            <div className="flex flex-col gap-1">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className={`rounded-md px-3 py-2 text-sm ${pathname === link.href ? "bg-muted font-medium" : "text-muted-foreground hover:bg-muted hover:text-foreground"}`}
                 >
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Sign out
-                </Button>
-              </>
-            ) : (
-              <div className="flex flex-col gap-2 pt-2">
+                  {link.label}
+                </Link>
+              ))}
+
+              {isAuthenticated ? (
+                <>
+                  {dashboardLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
+                    >
+                      <link.icon className="h-4 w-4" />
+                      {link.label}
+                    </Link>
+                  ))}
+                  <Button
+                    variant="ghost"
+                    className="justify-start px-3 text-red-600 hover:bg-red-50 hover:text-red-600"
+                    onClick={() => signOut({ callbackUrl: "/" })}
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Sign out
+                  </Button>
+                </>
+              ) : (
                 <Link href="/login" onClick={() => setIsOpen(false)}>
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="mt-2 w-full">
                     Admin Login
                   </Button>
                 </Link>
-              </div>
-            )}
+              )}
+            </div>
           </div>
-        </motion.div>
+        </div>
       )}
     </header>
   );

@@ -9,9 +9,12 @@ Set admin credentials in `.env.local`:
 ```env
 ADMIN_EMAIL="jakirdp@gmail.com"
 ADMIN_PASSWORD="change-this-password"
+AUTH_SECRET="replace-with-a-long-random-secret"
 ```
 
 Use these credentials on `/login` to access the admin dashboard.
+
+For Vercel deployments, add the same `ADMIN_EMAIL`, `ADMIN_PASSWORD`, and `AUTH_SECRET` values in Project Settings -> Environment Variables. Missing `AUTH_SECRET` can cause successful login responses but immediate redirect back to `/login`.
 
 ### Database
 

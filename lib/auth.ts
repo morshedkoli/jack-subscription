@@ -3,8 +3,11 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 const adminEmail = process.env.ADMIN_EMAIL?.toLowerCase().trim();
 const adminPassword = process.env.ADMIN_PASSWORD;
+const authSecret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  secret: authSecret,
+  trustHost: true,
   session: {
     strategy: "jwt",
   },

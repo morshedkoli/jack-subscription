@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+
 import { auth } from "@/lib/auth";
 import { DashboardSidebar } from "@/components/dashboard";
 
@@ -14,11 +15,13 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen flex bg-gradient-to-br from-background via-background to-emerald-500/5">
-      <DashboardSidebar />
-      <main className="flex-1 lg:ml-4 p-3 sm:p-5 lg:p-8 pt-16 lg:pt-8 overflow-y-auto scrollbar-thin">
-        <div className="max-w-7xl mx-auto">{children}</div>
-      </main>
+    <div className="min-h-screen bg-background">
+      <div className="mx-auto flex min-h-screen max-w-[1400px]">
+        <DashboardSidebar />
+        <main className="min-w-0 flex-1 overflow-y-auto px-4 pb-8 pt-16 sm:px-6 lg:px-8 lg:pt-8 scrollbar-thin">
+          <div className="mx-auto max-w-6xl">{children}</div>
+        </main>
+      </div>
     </div>
   );
 }
