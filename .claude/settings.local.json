@@ -6,7 +6,15 @@
       "mcp__playwright__browser_snapshot",
       "mcp__playwright__browser_fill_form",
       "mcp__playwright__browser_click",
-      "mcp__playwright__browser_wait_for"
+      "mcp__playwright__browser_wait_for",
+      "Bash(npm uninstall:*)",
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx prisma:*)",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__query-docs",
+      "Bash(rm -rf lib/generated)",
+      "Bash(rm -f prisma.config.ts)"
     ]
   }
 }

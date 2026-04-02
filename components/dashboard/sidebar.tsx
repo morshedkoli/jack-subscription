@@ -92,13 +92,12 @@ export function DashboardSidebar() {
         initial={false}
         animate={{ x: isOpen || isDesktop ? 0 : "-100%" }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className={`fixed lg:static inset-y-0 left-0 z-40 w-60 bg-card/80 backdrop-blur-xl border-r border-border/30 transform transition-transform duration-200 ease-in-out ${
+         className={`fixed lg:static inset-y-0 left-0 z-40 w-60 bg-card/80 backdrop-blur-xl border-r border-border/30 transform transition-transform duration-200 ease-in-out flex flex-col ${
           isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >
-        <div className="flex flex-col h-full">
-          {/* Logo */}
-          <div className="px-5 py-6">
+           {/* Header - Logo */}
+           <div className="flex-shrink-0 px-5 py-6">
             <Link href="/" className="flex items-center gap-2.5 group">
               <motion.div
                 className="p-2 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-md shadow-emerald-500/25"
@@ -113,10 +112,10 @@ export function DashboardSidebar() {
             </Link>
           </div>
 
-          <Separator className="mx-5 bg-border/30" />
+         <Separator className="mx-5 bg-border/30 flex-shrink-0" />
 
-          {/* Navigation */}
-          <nav className="flex-1 px-4 py-4 space-y-1">
+           {/* Navigation - Scrollable */}
+           <nav className="flex-1 px-4 py-4 space-y-1 overflow-y-auto scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent">
             {sidebarLinks.map((link, index) => {
               const isActive = pathname === link.href;
               return (
@@ -161,8 +160,8 @@ export function DashboardSidebar() {
 
           <Separator className="mx-5 bg-border/30" />
 
-          {/* User Section */}
-          <div className="px-4 py-4 space-y-2">
+         {/* Footer - User Section */}
+         <div className="flex-shrink-0 px-4 py-4 space-y-2 border-t border-border/30">
             <motion.div
               className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-muted/40 border border-border/30"
               whileHover={{ scale: 1.02 }}
@@ -195,7 +194,6 @@ export function DashboardSidebar() {
               </Button>
             </motion.div>
           </div>
-        </div>
       </motion.aside>
     </>
   );

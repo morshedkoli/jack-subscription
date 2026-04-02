@@ -198,7 +198,7 @@ const data = await response.json();
                 <div className="w-3 h-3 rounded-full bg-green-500" />
                 <span className="ml-2 text-sm text-muted-foreground">check-domain.js</span>
               </div>
-              <pre className="p-6 overflow-x-auto text-sm">
+              <pre className="p-3 sm:p-6 overflow-x-auto text-xs sm:text-sm">
                 <code className="text-muted-foreground">{codeExample}</code>
               </pre>
             </div>

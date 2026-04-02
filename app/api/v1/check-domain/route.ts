@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectDB from "@/lib/db";
+import prisma from "@/lib/db";
 
 function normalizeDomain(input: string) {
   return input.trim().toLowerCase();
@@ -15,15 +15,18 @@ export async function GET(request: NextRequest) {
     }
 
     const domain = normalizeDomain(domainParam);
-    const db = connectDB();
 
-    const record = db
-      .prepare(
-        `SELECT domain, expires_at AS expiresAt
-         FROM domains
-         WHERE domain = ?`
-      )
-      .get(domain) as { domain: string; expiresAt: string } | undefined;
+    const record = await prisma.domain.findUnique({
+      where: { domain },
+      select: { domain: true, expiresAt: true },
+    });
+
+    const corsHeaders = {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET",
+      "Cache-Control": "no-store, max-age=0",
+    };
+
     if (!record) {
       return NextResponse.json(
         {
@@ -34,19 +37,12 @@ export async function GET(request: NextRequest) {
           expired: true,
           expiresAt: null,
         },
-        {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET",
-            "Cache-Control": "no-store, max-age=0",
-          },
-        }
+        { headers: corsHeaders }
       );
     }
 
     const now = new Date();
-    const expiresAtDate = new Date(record.expiresAt);
-    const expired = expiresAtDate.getTime() < now.getTime();
+    const expired = record.expiresAt.getTime() < now.getTime();
 
     return NextResponse.json(
       {
@@ -55,15 +51,9 @@ export async function GET(request: NextRequest) {
         status: expired ? "expired" : "subscribed",
         subscribed: !expired,
         expired,
-        expiresAt: expiresAtDate.toISOString(),
+        expiresAt: record.expiresAt.toISOString(),
       },
-      {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET",
-          "Cache-Control": "no-store, max-age=0",
-        },
-      }
+      { headers: corsHeaders }
     );
   } catch (error) {
     console.error("Public domain check error:", error);

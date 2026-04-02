@@ -9,7 +9,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import {
   Globe,
   Plus,
-  Trash2,
   Search,
   Loader2,
   AlertCircle,
@@ -51,7 +50,6 @@ export function DashboardOverview() {
   const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = useState(false);
   const [isRenewing, setIsRenewing] = useState(false);
-  const [deleteId, setDeleteId] = useState<string | null>(null);
   const [domain, setDomain] = useState("");
   const [expiresAt, setExpiresAt] = useState("");
   const [notes, setNotes] = useState("");
@@ -113,19 +111,6 @@ export function DashboardOverview() {
     onError: (error: Error) => toast.error(error.message || "Failed to save domain"),
   });
 
-  const deleteMutation = useMutation({
-    mutationFn: async (id: string) => {
-      const res = await fetch(`/api/domains?id=${id}`, { method: "DELETE" });
-      if (!res.ok) throw new Error("Failed to delete domain");
-      return res.json();
-    },
-    onSuccess: () => {
-      toast.success("Domain deleted successfully");
-      setDeleteId(null);
-      queryClient.invalidateQueries({ queryKey: ["domains"] });
-    },
-    onError: () => toast.error("Failed to delete domain"),
-  });
 
   const handlePublicCheck = async () => {
     if (!checkDomain.trim()) return;
@@ -192,18 +177,18 @@ export function DashboardOverview() {
 
   return (
     <motion.div
-      className="space-y-8"
+      className="space-y-5 sm:space-y-8"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
     >
       {/* Header */}
-      <motion.div variants={itemVariants} className="flex items-start justify-between">
+      <motion.div variants={itemVariants} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-4xl font-extrabold tracking-tight text-foreground">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-foreground">
             Domain Subscriptions
           </h1>
-          <p className="text-muted-foreground mt-2 text-base leading-relaxed">
+          <p className="text-muted-foreground mt-1 sm:mt-2 text-sm sm:text-base leading-relaxed">
             Monitor and manage domain expiry dates from your centralized dashboard.
           </p>
         </div>
@@ -211,7 +196,7 @@ export function DashboardOverview() {
           onClick={handleAddNew}
           size="lg"
           variant="ghost"
-          className="!bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 !text-white hover:!text-white shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35 transition-all duration-300 font-semibold tracking-tight"
+          className="w-full sm:w-auto !bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 !text-white hover:!text-white shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35 transition-all duration-300 font-semibold tracking-tight"
         >
           <Plus className="h-5 w-5 mr-2" />
           Add Domain
@@ -220,7 +205,7 @@ export function DashboardOverview() {
 
       {/* Stats Cards */}
       <motion.div
-        className="grid gap-5 md:grid-cols-2 lg:grid-cols-4"
+        className="grid gap-3 sm:gap-5 grid-cols-2 lg:grid-cols-4"
         variants={containerVariants}
       >
         {[
@@ -277,7 +262,7 @@ export function DashboardOverview() {
                   <Skeleton className="h-10 w-20" />
                 ) : (
                   <div className="space-y-1">
-                    <div className="text-3xl font-extrabold tracking-tight">{stat.value}</div>
+                    <div className="text-2xl sm:text-3xl font-extrabold tracking-tight">{stat.value}</div>
                     <p className="text-xs text-muted-foreground font-medium">{stat.sub}</p>
                   </div>
                 )}
@@ -330,14 +315,14 @@ export function DashboardOverview() {
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: 20 }}
                         transition={{ delay: index * 0.04 }}
-                        className="group flex flex-col md:flex-row md:items-center gap-4 justify-between border border-border/40 rounded-xl p-4 hover:border-emerald-500/30 hover:shadow-md hover:shadow-emerald-500/5 transition-all duration-300 bg-card/60 hover:bg-card"
+                        className="group flex flex-col md:flex-row md:items-center gap-3 sm:gap-4 justify-between border border-border/40 rounded-xl p-3 sm:p-4 hover:border-emerald-500/30 hover:shadow-md hover:shadow-emerald-500/5 transition-all duration-300 bg-card/60 hover:bg-card"
                       >
                         <div className="flex-1 space-y-1">
                           <div className="flex items-center gap-3">
                             <div className="p-2 rounded-lg bg-emerald-500/10">
                               <Globe className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                             </div>
-                            <p className="font-bold text-lg tracking-tight">{item.domain}</p>
+                            <p className="font-bold text-base sm:text-lg tracking-tight">{item.domain}</p>
                           </div>
                           <div className="flex items-center gap-2 text-sm text-muted-foreground ml-11">
                             <Calendar className="h-3.5 w-3.5" />
@@ -361,14 +346,6 @@ export function DashboardOverview() {
                           >
                             <RefreshCw className="h-3.5 w-3.5 mr-1.5" />
                             Renew
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950"
-                            onClick={() => setDeleteId(item.id)}
-                          >
-                            <Trash2 className="h-3.5 w-3.5" />
                           </Button>
                         </div>
                       </motion.div>
@@ -394,7 +371,7 @@ export function DashboardOverview() {
             </CardDescription>
           </CardHeader>
           <CardContent className="p-5 space-y-4">
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
               <Input
                 value={checkDomain}
                 onChange={(e) => setCheckDomain(e.target.value)}
@@ -406,7 +383,7 @@ export function DashboardOverview() {
                 onClick={handlePublicCheck}
                 size="lg"
                 variant="ghost"
-                className="!bg-gradient-to-r from-emerald-500 to-teal-600 !text-white hover:!text-white shadow-md shadow-emerald-500/20 font-semibold"
+                className="w-full sm:w-auto !bg-gradient-to-r from-emerald-500 to-teal-600 !text-white hover:!text-white shadow-md shadow-emerald-500/20 font-semibold"
               >
                 <Search className="h-4 w-4 mr-2" />
                 Check
@@ -553,39 +530,6 @@ export function DashboardOverview() {
         </DialogContent>
       </Dialog>
 
-      {/* Delete Confirmation Dialog */}
-      <Dialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle className="font-bold tracking-tight">Delete Domain</DialogTitle>
-            <DialogDescription>
-              Are you sure you want to delete this domain? This action cannot be undone.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setDeleteId(null)}>
-              Cancel
-            </Button>
-            <Button
-              variant="destructive"
-              onClick={() => deleteId && deleteMutation.mutate(deleteId)}
-              disabled={deleteMutation.isPending}
-            >
-              {deleteMutation.isPending ? (
-                <>
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Deleting...
-                </>
-              ) : (
-                <>
-                  <Trash2 className="h-4 w-4 mr-2" />
-                  Delete
-                </>
-              )}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </motion.div>
   );
 }

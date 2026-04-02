@@ -1,10 +1,10 @@
 ## dRecharge
 
-Admin-managed domain subscription checker built with Next.js and SQLite.
+Admin-managed domain subscription checker built with Next.js and MongoDB.
 
 ### Admin Login
 
-Set admin credentials in `.env`:
+Set admin credentials in `.env.local`:
 
 ```env
 ADMIN_EMAIL="jakirdp@gmail.com"
@@ -15,15 +15,11 @@ Use these credentials on `/login` to access the admin dashboard.
 
 ### Database
 
-Data is stored in SQLite using `better-sqlite3`.
-
-Set in `.env` (optional):
+Data is stored in MongoDB. Set the connection string in `.env.local`:
 
 ```env
-SQLITE_PATH="data/subscriptions.sqlite"
+DATABASE_URL="mongodb+srv://user:pass@cluster.mongodb.net/?retryWrites=true&w=majority"
 ```
-
-If `SQLITE_PATH` is not set, the app uses `DATABASE_URL` as a file path, then defaults to `data/subscriptions.sqlite`.
 
 ### Public API
 
