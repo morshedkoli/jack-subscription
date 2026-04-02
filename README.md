@@ -1,3 +1,62 @@
+## dRecharge
+
+Admin-managed domain subscription checker built with Next.js and SQLite.
+
+### Admin Login
+
+Set admin credentials in `.env`:
+
+```env
+ADMIN_EMAIL="jakirdp@gmail.com"
+ADMIN_PASSWORD="change-this-password"
+```
+
+Use these credentials on `/login` to access the admin dashboard.
+
+### Database
+
+Data is stored in SQLite using `better-sqlite3`.
+
+Set in `.env` (optional):
+
+```env
+SQLITE_PATH="data/subscriptions.sqlite"
+```
+
+If `SQLITE_PATH` is not set, the app uses `DATABASE_URL` as a file path, then defaults to `data/subscriptions.sqlite`.
+
+### Public API
+
+Check domain status publicly:
+
+```http
+GET /api/v1/check-domain?domain=example.com
+```
+
+Response:
+
+```json
+{
+  "domain": "example.com",
+  "available": true,
+  "status": "subscribed",
+  "subscribed": true,
+  "expired": false,
+  "expiresAt": "2026-12-31T00:00:00.000Z"
+}
+```
+
+### Run Locally
+
+```bash
+npm install
+npm run dev
+```
+
+Open `http://localhost:3000`.
+
+---
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

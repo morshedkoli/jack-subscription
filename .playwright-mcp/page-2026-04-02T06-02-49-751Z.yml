@@ -1,0 +1,39 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e7]:
+      - link "dRecharge" [ref=e8] [cursor=pointer]:
+        - /url: /
+        - img [ref=e10]
+        - generic [ref=e12]: dRecharge
+    - main [ref=e13]:
+      - generic [ref=e19]:
+        - generic [ref=e21]:
+          - img [ref=e23]
+          - generic [ref=e26]: Welcome back
+          - generic [ref=e27]: Sign in to access your admin dashboard
+        - generic [ref=e28]:
+          - generic [ref=e29]:
+            - generic [ref=e30]:
+              - generic [ref=e31]: Email address
+              - generic [ref=e32]:
+                - img [ref=e33]
+                - textbox "Email address" [ref=e36]:
+                  - /placeholder: admin@example.com
+            - generic [ref=e37]:
+              - generic [ref=e38]: Password
+              - generic [ref=e39]:
+                - img [ref=e40]
+                - textbox "Password" [ref=e43]:
+                  - /placeholder: Enter your password
+                - button [ref=e44]:
+                  - img [ref=e45]
+            - button "Sign in securely" [ref=e49]:
+              - img
+              - text: Sign in securely
+          - generic [ref=e54]: Admin-only access • Secure login
+    - contentinfo [ref=e55]:
+      - paragraph [ref=e56]: Secure admin access • Protected by authentication
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e62] [cursor=pointer]:
+    - img [ref=e63]
+  - alert [ref=e66]

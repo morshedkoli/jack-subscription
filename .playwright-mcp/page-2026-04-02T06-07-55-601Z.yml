@@ -1,0 +1,70 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e3]:
+      - generic [ref=e4]:
+        - link "dRecharge" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - img [ref=e8]
+          - generic [ref=e11]: dRecharge
+        - separator [ref=e12]
+        - navigation [ref=e13]:
+          - link "Dashboard" [ref=e15] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e17]
+            - generic [ref=e22]: Dashboard
+            - img [ref=e24]
+          - link "Settings" [ref=e27] [cursor=pointer]:
+            - /url: /settings
+            - img [ref=e28]
+            - generic [ref=e31]: Settings
+        - separator [ref=e32]
+        - generic [ref=e33]:
+          - generic [ref=e34]:
+            - img [ref=e37]
+            - generic [ref=e40]:
+              - paragraph [ref=e41]: Admin User
+              - paragraph [ref=e42]: admin@example.com
+          - button "Sign out" [ref=e44]:
+            - img
+            - generic [ref=e45]: Sign out
+    - main [ref=e46]:
+      - generic [ref=e48]:
+        - generic [ref=e49]:
+          - generic [ref=e50]:
+            - heading "Domain Subscriptions" [level=1] [ref=e51]
+            - paragraph [ref=e52]: Monitor and manage domain expiry dates from your centralized dashboard.
+          - button "Add Domain" [ref=e53]:
+            - img
+            - text: Add Domain
+        - generic [ref=e54]:
+          - generic [ref=e58]:
+            - generic [ref=e59]: Total Domains
+            - img [ref=e61]
+          - generic [ref=e69]:
+            - generic [ref=e70]: Active
+            - img [ref=e72]
+          - generic [ref=e80]:
+            - generic [ref=e81]: Expiring Soon
+            - img [ref=e83]
+          - generic [ref=e90]:
+            - generic [ref=e91]: Expired
+            - img [ref=e93]
+        - generic [ref=e101]:
+          - generic [ref=e102]:
+            - img [ref=e103]
+            - text: Domain Registry
+          - generic [ref=e106]: All registered domains with expiration tracking
+        - generic [ref=e113]:
+          - generic [ref=e114]:
+            - generic [ref=e115]:
+              - img [ref=e116]
+              - text: Public API Test
+            - generic [ref=e119]: GET /api/v1/check-domain?domain=example.com
+          - generic [ref=e121]:
+            - textbox "example.com" [ref=e122]
+            - button "Check" [ref=e123]:
+              - img
+              - text: Check
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e129] [cursor=pointer]:
+    - img [ref=e130]
