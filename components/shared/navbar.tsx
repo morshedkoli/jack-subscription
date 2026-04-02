@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { 
-  Zap, 
   Menu, 
   X,
   LogOut,
@@ -44,17 +44,20 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center">
           <motion.div
-            whileHover={{ rotate: 180 }}
-            transition={{ duration: 0.3 }}
-            className="p-2 rounded-xl bg-gradient-to-br from-primary to-purple-600"
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.2 }}
           >
-            <Zap className="h-5 w-5 text-white" />
+            <Image
+              src="/logo.svg"
+              alt="dRecharge Logo"
+              width={120}
+              height={32}
+              className="h-8 w-auto"
+              priority
+            />
           </motion.div>
-          <span className="font-bold text-xl bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
-            dRecharge
-          </span>
         </Link>
 
         {/* Desktop Navigation */}
